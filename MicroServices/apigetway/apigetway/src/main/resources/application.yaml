@@ -1,0 +1,40 @@
+server:
+  port : 9998
+  
+debug: true
+  
+eureka:
+  instance:
+    hostname: localhost
+ 
+spring:
+    application:
+       name: api-gatway
+    cloud:
+        gateway:
+           routes:
+            - id: USER-SERVICE
+              uri: lb://USER-SERVICE
+              predicates:
+               - Path=/user/**
+              filters:
+                 - name: CircuitBreaker
+                 
+                   args:
+                     name: User-Service
+                     fallbackUri: forward:/userfallback
+            - id: USER-CONTRACT
+              uri: lb://USER-CONTRACT
+              predicates:
+                - Path=/contract/**   
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: User-Contracts
+                    fallbackUri: forward:/contractfallback
+                
+hystrix:
+  commeand:    fallbackcmd:      execution:        isolation:          thread:            timeoutInMilliseconds: 500
+                        
+                        
+management:  endpoints:    web:      exposure:        include: hystrix.stream, health, info, metrics

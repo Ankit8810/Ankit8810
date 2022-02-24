@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "eureka.waitTimeInMsWhenSyncEmpty",
+  "type": "java.lang.String",
+  "description": "A description for 'eureka.waitTimeInMsWhenSyncEmpty'"
+}]}
